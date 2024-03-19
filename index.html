@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en"> 
+    <head>
+        <meta charset="utf-8"/>
+        <title>Tour de Møhlenpris</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="./jquery-3.2.1.js"></script>
+        <script src="./data.js"></script>
+    </head>
+
+    <body>
+        <div class="wrapper">
+            <div id="header" class="header">
+                Tour de Møhlenpris
+                <a href="./backend.php">1. Importer filer (ikkje klikk!)</a>
+                <a href="#" id="menu-grouping">2. Gruppér</a>
+                <a href="#" id="menu-run">3. Lag plan</a>
+                <a href="#" id="menu-save">4. Lagre plan</a>
+                <a href="./rapport.html" id="menu-print-hosts">Rapportar</a>
+                <a href="#" id="menu-clear-schedule">Slett plan</a>
+            </div>
+            <div id="groups" class="groups"></div>
+            <div id="schedule"></div>
+        </div>
+
+        <div id="popup"></div>
+
+        <script src="./tour.js"></script>
+    </body>
+</html>

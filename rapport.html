@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Tour de Møhlenpris</title>
+        <link rel="stylesheet" type="text/css" href="report.css">
+        <script src="./jquery-3.2.1.js"></script>
+        <script src="./data.js"></script>
+        <script>
+            const MEALS = ["Forrett","Middag","Dessert"];
+            let addMenuAction = function() {
+                
+                document.querySelector("#menu-info-for-hosts").addEventListener("click", function( e ) {
+                    document.querySelector( "#report" ).innerHTML = "";
+                    for( hostId in hosts ) {
+                        let host = hosts[hostId];
+                        $( "#report" ).append( "<div class='ifh-host' id='ifh-" + host.id + "'>" + host.name + "<br/></div>" );
+                        for( let i = 0; i < MEALS.length; i++ ) {
+                            $( "#ifh-"  + host.id ).append( "<div class='ifh-meal' id='ifh-meal-" + hostId + "-" + i + "'></div>" );
+                            $( "#ifh-meal-" + hostId + "-" + i ).append("<div class='ifh-meal-heading'>" + MEALS[i] + "</div>")
+                            let mealGroups = host[MEALS[i]];
+                            for( let j = 0; j < mealGroups.length; j++ ) {
+                                let group = groups[mealGroups[j]];
+                                for( let k = 0; k < group.length; k++ ) {
+                                    let guest = group[k];
+                                    $( "#ifh-meal-" + hostId + "-" + i ).append("<div class='ifh-guest-container' id='ifh-guest-" + i + "-" + guest.id + "'></div>")
+                                    $( "#ifh-guest-" + i + "-" + guest.id ).append("<div class='ifh-guest-in-name'>" + guest.firstname + " " + guest.lastname + "&nbsp;</div>");
+                                    $( "#ifh-guest-" + i + "-" + guest.id ).append("<div class='ifh-guest-in-phone'>" + guest.phone + "&nbsp;</div>");
+                                    $( "#ifh-guest-" + i + "-" + guest.id ).append("<div class='ifh-guest-in-allergies'>" + guest.allergies + "&nbsp;</div>");
+                                }
+                            }
+                        }
+                    }
+                    return false;
+                });
+
+                document.querySelector("#menu-info-for-guests").addEventListener("click", function( e ) {
+                    document.querySelector( "#report" ).innerHTML = "";
+
+                    let groupMeals = {};
+                    for( hostId in hosts ) {
+                        let host = hosts[hostId];
+                        for( let i = 0; i < MEALS.length; i++ ) {
+                            let mealGroups = host[MEALS[i]];
+                            for( let j = 0; j < mealGroups.length; j++ ) {
+                                if( !groupMeals.hasOwnProperty( [mealGroups[j]] )) {
+                                    groupMeals[mealGroups[j]] = {};
+                                }
+                                groupMeals[mealGroups[j]][i] = hostId;
+                            }
+                        }
+                    }
+
+                    for( groupId in groupMeals ) {
+                        let group = groups[groupId];
+                        $("#report").append("<div class='ifh-host' id='ifg-group-" + groupId + "'></div>");
+                        for( let i = 0; i < group.length; i++ ) {
+                            let guest = group[i];
+                            if( i > 0 ) {
+                                $("#ifg-group-" + groupId ).append(", ");
+                            }
+                            $("#ifg-group-" + groupId ).append(guest.firstname + " " + guest.lastname);
+                        }
+                        $("#ifg-group-" + groupId ).append("<br/>");
+
+                        for( let i = 0; i < MEALS.length; i++ ) {
+                            if( groupMeals[groupId].hasOwnProperty( i )) {
+                                let host = hosts[groupMeals[groupId][i]];
+                                $("#ifg-group-" + groupId ).append("<div class='ifh-meal' id='ifg-meal-" + groupId + "-" + i + "'></div>");
+                                
+                                $( "#ifg-meal-" + groupId + "-" + i ).append( "<div class='ifh-meal-heading'>" + MEALS[i] + "</div>" );
+                                $( "#ifg-meal-" + groupId + "-" + i ).append( "<div class='ifh-guest-container' id='ifg-group-" + groupId + "-meal-" + i + "'></div>" );
+                                
+                                $("#ifg-group-" + groupId + "-meal-" + i).append( "<div class='ifh-guest-in-'>" + host.name + "</div>" );
+                                $("#ifg-group-" + groupId + "-meal-" + i).append( "<div class='ifh-guest-in-'>" + host.address + "</div>" );
+                                $("#ifg-group-" + groupId + "-meal-" + i).append( "<div class='ifh-guest-in-'>" + host.appartment + "</div>" );
+                                $("#ifg-group-" + groupId + "-meal-" + i).append( "<div class='ifh-guest-in-'>" + host.phone + "</div>" );
+                            }
+                        }
+                    }
+                    return false;
+                });
+        }
+
+
+        /**
+         * Document ready and setting it up
+         * */
+         $( document ).ready(function() {   
+            addMenuAction();
+            $( "#menu-info-for-hosts" ).click();
+        });
+        </script>
+    </head>
+    <body>
+        <div class="wrapper">
+            <div id="header" class="header">
+                Tour de Møhlenpris!
+                <a href="#" id="menu-info-for-hosts">Info til vertane</a>
+                <a href="#" id="menu-info-for-guests">Info til gjestane</a>
+                <a href="index.html" id="menu-info-for-guests">Tilbake til hovudsida</a>
+            </div>
+            <div id="report"></div>
+        </div>
+    </body>
+</html>
