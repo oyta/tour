@@ -60,43 +60,6 @@ function importGuests( $path, $filename ) {
 }
 
 /**
- * Get coordinates for address strings on Moehlenpris.
- * Source: http://ws.geonorge.no//AdresseWS/adresse/boundingbox?nordLL=60.3820828&austLL=5.3193965&nordUR=60.3866123&austUR=5.327173&antPerSide=1000
- * Source response saved in adresse.json locally
- * input    hostarray   obj
- */
-function getCoordinates( $hostArray ) {
-    $address_url = "./adresse.json";
-    $address_contents = file_get_contents( $address_url );
-    $addresses = json_decode( file_get_contents( $address_url ));
-
-    foreach( $hostArray as &$host ) {
-        $address_array = explode( " ", $host['address']); // Split address string by space
-        $number = $address_array[ count( $address_array )-1 ]; // House number
-        $street = substr( $host['address'], 0, strrpos( $host['address'], " ", -1 )); // Street name
-
-        $adresseliste = $addresses->adresser;
-
-        $found = false;
-        foreach( $adresseliste as $adr_row ) {
-            if( strcasecmp( $adr_row->adressenavn, $street ) == 0 ) {
-                if( strcasecmp( $adr_row->husnr, $number ) == 0  ) {
-                    $host['lat'] = $adr_row->nord;
-                    $host['lng'] = $adr_row->aust;
-                    $found = true;
-                }
-            }
-        }
-
-        if( !$found ) {
-            echo "Did not find " . $street . " " . $number . "<br/>";
-        }
-    }
-    unset($host);
-    return $hostArray;
-}
-
-/**
  * Export to JSON to file.
  * input    path        str     Directory of the file.
  * input    filename    str     Filename of the file to write to.
@@ -118,8 +81,6 @@ function exportToJson( $path, $filename, $varName, $obj, $append ) {
  */
 $hosts  = importHosts( $dir, $host_filename );
 $guests = importGuests( $dir, $guest_filename );
-
-//$hosts = getCoordinates( $hosts ); // Adding coordinates for the given addresses
 
 exportToJson( $dir, $json_filename, 'let hosts = ', $hosts, false );
 exportToJson( $dir, $json_filename, 'let groups = ', $guests, true );
