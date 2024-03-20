@@ -1,6 +1,6 @@
 body {
     background-color: #ffffff;
-    background: url('bg.png');
+    background: url('../image/bg.png');
     padding: 0;
     margin: 0;
 }

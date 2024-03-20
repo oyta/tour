@@ -6,10 +6,10 @@ header("Content-type: text/plain");
  * Config
  */
 $dir = "./";
-$json_filenam = "data.js";
-$host_json_filename = "hosts.json";
-$group_json_filename = "groups.json";
-$group_meal_json_filename = "groupmeal.json";
+$json_filenam = "../generated/data.js";
+$host_json_filename = "../generated/hosts.json";
+$group_json_filename = "../generated/groups.json";
+$group_meal_json_filename = "../generated/groupmeal.json";
 
 
 /**
@@ -131,11 +131,6 @@ exportToJson( $dir, $json_filenam, 'let groups = ', $split[1], true );
 
 file_put_contents( $dir . $host_json_filename, utf8_encode($split[0]), LOCK_EX );
 file_put_contents( $dir . $group_json_filename, utf8_encode($split[1]), LOCK_EX );
-
-//$hosts  = json_decode( file_get_contents( $host_json_filename ));
-//$groups = json_decode( file_get_contents( $group_json_filename ));
-// $group_routes = getRouteArrays( $hosts, $groups, groupMeals( $hosts, $groups ));
-//file_put_contents( $dir . $group_meal_json_filename, json_encode( $group_routes ), LOCK_EX );
 
 echo "Save on server succeded if nothing else was stated.";
 

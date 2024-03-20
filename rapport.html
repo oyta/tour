@@ -4,8 +4,21 @@
         <meta charset="utf-8"/>
         <title>Tour de Møhlenpris</title>
         <link rel="stylesheet" type="text/css" href="report.css">
-        <script src="./jquery-3.2.1.js"></script>
-        <script src="./data.js"></script>
+        
+    </head>
+    <body>
+        <div class="wrapper">
+            <div id="header" class="header">
+                Tour de Møhlenpris!
+                <a href="#" id="menu-info-for-hosts">Info til vertane</a>
+                <a href="#" id="menu-info-for-guests">Info til gjestane</a>
+                <a href="index.html" id="menu-info-for-guests">Tilbake til hovudsida</a>
+            </div>
+            <div id="report"></div>
+        </div>
+
+        <script src="./script/jquery-3.2.1.js"></script>
+        <script src="./generated/data.js"></script>
         <script>
             const MEALS = ["Forrett","Middag","Dessert"];
             let addMenuAction = function() {
@@ -91,16 +104,5 @@
             $( "#menu-info-for-hosts" ).click();
         });
         </script>
-    </head>
-    <body>
-        <div class="wrapper">
-            <div id="header" class="header">
-                Tour de Møhlenpris!
-                <a href="#" id="menu-info-for-hosts">Info til vertane</a>
-                <a href="#" id="menu-info-for-guests">Info til gjestane</a>
-                <a href="index.html" id="menu-info-for-guests">Tilbake til hovudsida</a>
-            </div>
-            <div id="report"></div>
-        </div>
     </body>
 </html>

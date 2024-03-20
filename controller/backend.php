@@ -4,9 +4,9 @@
  * Config
  */
 $dir = "./";
-$host_filename  = "Verter.csv";
-$guest_filename = "Paameldte.csv";
-$json_filename = "data.js";
+$host_filename  = "../inputFiles/Verter.csv";
+$guest_filename = "../inputFiles/Paameldte.csv";
+$json_filename = "../generated/data.js";
 
 /**
  * Import hosts
