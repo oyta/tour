@@ -127,7 +127,7 @@ let createSchedulePenalty = function (
 
   /** Implemenation of multiple runs **/
   // Number of iterations
-  let numberOfIter = 1000;
+  let numberOfIter = 3000;
 
   let freeSeatsPerHost_chosen = Object.assign({}, freeSeatsPerHost);
   let freeSeatsPerHost_running = Object.assign({}, freeSeatsPerHost);
