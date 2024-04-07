@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Print tour</title>
+        <link href="./style/printreport.css" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+            rel="stylesheet"
+        />
+    </head>
+    <body>
+        <template id="guestTemplate">
+            <h1></h1>
+
+            <div class="wrapper">
+                <div class="Info meal1">
+                    <h3>Velkommen til forrett kl 18:30 hos</h3>
+                    <!-- Host name, address, appartment, phone separated by br -->
+                </div>
+
+                <div class="Info meal2">
+                    <h3>Velkommen til middag kl 18:30 hos</h3>
+                    <!-- Host name, address, appartment, phone separated by br -->
+                </div>
+
+                <div class="Info meal3">
+                    <h3>Velkommen til dessert kl 18:30 hos</h3>
+                    <!-- Host name, address, appartment, phone separated by br -->
+                </div>
+            </div>
+        </template>
+
+        <script src="./script/jquery-3.2.1.js"></script>
+        <script src="./generated/data.js"></script>
+        <script>
+            const MEALS = ["Forrett", "Middag", "Dessert"];
+            const TIMES = ["18:30", "19:15", "20:00"];
+            const container = document.querySelector("body");
+            const template = document.querySelector("#guestTemplate");
+
+            let groupMeals = {};
+            for (hostId in hosts) {
+                let host = hosts[hostId];
+                for (let i = 0; i < MEALS.length; i++) {
+                    let mealGroups = host[MEALS[i]];
+                    for (let j = 0; j < mealGroups.length; j++) {
+                        if (!groupMeals.hasOwnProperty([mealGroups[j]])) {
+                            groupMeals[mealGroups[j]] = {};
+                        }
+                        groupMeals[mealGroups[j]][i] = hostId;
+                    }
+                }
+            }
+
+            for (groupId in groupMeals) {
+                let clone = template.content.cloneNode(true);
+                let group = groups[groupId];
+                let guestNames = "";
+                for (let i = 0; i < group.length; i++) {
+                    let guest = group[i];
+                    if (i > 0) {
+                        guestNames += ", ";
+                    }
+                    guestNames = guest.firstname + " " + guest.lastname;
+                }
+                clone.querySelector("h1").innerHTML = guestNames;
+
+                for (let i = 0; i < MEALS.length; i++) {
+                    if (groupMeals[groupId].hasOwnProperty(i)) {
+                        let host = hosts[groupMeals[groupId][i]];
+                        const hostTitle = clone.querySelector(
+                            `.Info.meal${i + 1} h3`,
+                        );
+                        hostTitle.innerHTML = `Velkomen til ${MEALS[i].toLowerCase()} kl ${TIMES[i]} hos`;
+                        hostTitle.after(`${host.phone}`);
+                        hostTitle.after(document.createElement("br"));
+                        hostTitle.after(`${host.appartment}`);
+                        hostTitle.after(document.createElement("br"));
+                        hostTitle.after(`${host.address}`);
+                        hostTitle.after(document.createElement("br"));
+                        hostTitle.after(`${host.name}`);
+                    }
+                }
+                container.append(clone);
+            }
+        </script>
+    </body>
+</html>

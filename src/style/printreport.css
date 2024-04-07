@@ -1,0 +1,55 @@
+@page {
+    size: A4;
+    margin: 0;
+}
+
+@media print {
+    body {
+        font-family: "Raleway", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 200;
+        font-style: normal;
+
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        break-after: page;
+        margin-top: 30%;
+        font-weight: 700;
+        width: 100%;
+        text-align: center;
+    }
+
+    .wrapper {
+        break-after: page;
+        text-align: center;
+
+        & h3 {
+            margin: 0;
+            margin-bottom: 0.5em;
+        }
+
+        & .Info {
+            display: block;
+        }
+    }
+}
+
+@media print {
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 3em;
+        align-items: center;
+        height: 100%;
+    }
+
+    html,
+    body {
+        height: 100%;
+        width: 100%;
+    }
+}
