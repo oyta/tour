@@ -31,40 +31,6 @@ let createEmptyGroupMeals = function (groups, groupMeals) {
   }
 };
 
-let createPenaltyMatrix = function (
-  hosts,
-  _groupMeals,
-  meals,
-  _groupId = -1,
-  meal = 0,
-) {
-  let matrix = {};
-  let hostMatrix = {};
-  let emptyList = {};
-  for (groupId in _groupMeals) {
-    emptyList[groupId] = 0;
-  }
-  if (_groupId != -1) {
-    matrix[_groupId] = Object.assign({}, emptyList);
-    for (let i = 0; i < _groupMeals[_groupId].length; i++) {
-      if (_groupMeals[_groupId][i] >= 0) {
-        let coGuests = hosts[_groupMeals[_groupId][i]][MEALS[i]];
-        for (let j = 0; j < coGuests.length; j++) {
-          matrix[_groupId][coGuests[j]]++;
-        }
-      }
-    }
-  }
-  for (host in hosts) {
-    hostMatrix[host] = 0;
-    let coGuests = hosts[host][MEALS[meal]];
-    for (let i = 0; i < coGuests.length; i++) {
-      hostMatrix[host] += matrix[_groupId][coGuests[i]];
-    }
-  }
-  return hostMatrix;
-};
-
 let createPenaltyMatrix2 = function (
   _groupMeals,
   _meals,
